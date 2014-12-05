@@ -1,3 +1,15 @@
 <html>
-Testing gh pages
+<form>
+Dice 1 <input type = "text" name = "d1" onkeyup="prob()">
+Dice 2 <input type = "text" name = "d2" onkeyup="prob()">
+</form>
+<p id="d1output">Experimental Probability:</p>
+<script>
+function prob()
+{
+	var elem = document.getElementById("d1");
+	var elem2 = document.getElementById("d2");
+	document.getElementById("d1output").innerHTML = "hi";
+}
+</script>
 </html>
