@@ -1,4 +1,4 @@
-StatsJS
+statistics - javascript edition
 =======
 
 Javascript port of stats simulation
