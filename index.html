@@ -3,10 +3,11 @@
 <link rel="stylesheet" type="text/css" href="statstyle.css">
 <introduction>
 <p>This simulation describes a game of rolling n amount of dice between two players, where Barney wins ties.</p>
+<p>Project Extension created by 6th period group of Jake White, Josh Roth, Kitti Gal, and Kyle Harder.</p>
 </introduction>
 <hr>
-Barney <input type = "text" id = "d1">
-Patrick <input type = "text" id = "d2">
+Barney <input type = "number" id = "d1">
+Patrick <input type = "number" id = "d2">
 Amount of Trials <input type = "text" id = "t">
 <button type = "button" id = "b" onclick = "prob();">Go!</button>
 <p></p>
@@ -34,15 +35,16 @@ Amount of Trials <input type = "text" id = "t">
 	<td id = "mb"></td>
 	<td id = "mp"></td>
 </table>
-<p id = "ts">Trials/Second: </p>
+<p id = "ts">Trials/Second = </p>
+<p id = "et">Elapsed Time = </p>
 <script>
 function prob()
 {
 	var start = new Date().getTime();
 	var trials = document.getElementById('t').value;
 	var p, b, sumPatrick=0, sumBarney=0, sumP=0, sumB=0
-	var barneyDie = document.getElementById('d1').value;
-	var patrickDie = document.getElementById('d2').value;
+	var barneyDie = parseInt(document.getElementById('d1').value);
+	var patrickDie = parseInt(document.getElementById('d2').value);
 	var sides = 6;
 	for(var i = 0; i < trials; ++i)
 	{
@@ -79,15 +81,27 @@ function prob()
 	
 		var barneyProb = sumBarney/trials;
 		var patrickProb = sumPatrick/trials;
+		var numerator = 0;
+		for(var n = 0; n < (sides); ++n)
+		{
+			numerator += (Math.pow(n+1, patrickDie) - Math.pow(n, patrickDie))*(Math.pow(n, barneyDie));
+		}
+		var denominator = Math.pow(sides, (patrickDie+barneyDie));
+		var theoreticalPatrick = numerator/denominator;
+		var theoreticalBarney = (denominator - numerator)/denominator;
 		
 		document.getElementById("mb").innerHTML = "<impNum>" + (sumB/trials) +"</impNum>";
 		document.getElementById("mp").innerHTML = "<impNum>" + (sumP/trials) +"</impNum>";
 		document.getElementById("eb").innerHTML = sumBarney + "/" + trials + " = " + "<impNum>" + barneyProb + "</impNum>";
 		document.getElementById("ep").innerHTML = sumPatrick + "/" + trials + " = " + "<impNum>" + patrickProb + "</impNum>";
+		document.getElementById("tb").innerHTML = (denominator - numerator) + "/" + denominator + " = " + "<impNum>" + theoreticalBarney + "</impNum>";
+		document.getElementById("tp").innerHTML = numerator + "/" + denominator + " = " + "<impNum>" + theoreticalPatrick + "</impNum>";
+		
 		var end = new Date().getTime();
 		var totalElapsed = end - start;
 		var trialsPerMilli = trials/totalElapsed;
-		document.getElementById("ts").innerHTML = "Trials/Second = " + trialsPerMilli*1000;
+		document.getElementById("ts").innerHTML = "Trials/Second = <impNum>" + trialsPerMilli*1000 + "</impNum>";
+		document.getElementById("et").innerHTML = "Elapsed Time = <impNum>" + totalElapsed/1000 + " seconds</impNum>";
 }
 </script>
 </html>
