@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
+<title> AP Stats Project </title>
 <link rel="stylesheet" type="text/css" href="statstyle.css">
 <introduction>
 <p>This simulation describes a game of rolling n amount of dice between two players, where Barney wins ties.</p>
 <p>Project Extension created by 6th period group of Jake White, Josh Roth, Kitti Gal, and Kyle Harder.</p>
+<p><impNum>Warning:</impNum> Large amounts of dice and trials can lead to your browser catching fire!</p>
 </introduction>
 <hr>
 Barney <input type = "number" id = "d1">
 Patrick <input type = "number" id = "d2">
 Amount of Trials <input type = "text" id = "t">
 <button type = "button" id = "b" onclick = "prob();">Go!</button>
-<p></p>
+<p id = "warning"></p>
 
 <body>
 
@@ -45,6 +47,15 @@ function prob()
 	var p, b, sumPatrick=0, sumBarney=0, sumP=0, sumB=0
 	var barneyDie = parseInt(document.getElementById('d1').value);
 	var patrickDie = parseInt(document.getElementById('d2').value);
+	if(patrickDie < 0 || barneyDie < 0 || trials < 0)
+	{
+		document.getElementById("warning").innerHTML = "Hey buddy, I know you think you're hilarious, but I don't.  Please make it positive.";
+		return;
+	}
+	else
+	{
+	document.getElementById("warning").innerHTML = "";
+	}
 	var sides = 6;
 	for(var i = 0; i < trials; ++i)
 	{
