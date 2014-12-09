@@ -1,27 +1,54 @@
+<!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" type="text/css" href="statstyle.css">
+</head>
 <p>This simulation describes a game of rolling n amount of dice between two players, where Barney wins ties.</p>
+<p>
 Barney <input type = "text" id = "d1">
 Patrick <input type = "text" id = "d2">
 Amount of Trials <input type = "text" id = "t">
 <button type = "button" id = "b" onclick = "prob();">Go!</button>
-<p id="eb">Experimental Probability (Barney): </p>
-<p id="ep">Experimental Probability (Patrick): </p>
-<p id="ts">Trials/Second: </p>
+
+<body>
+
+<table>
+  <tr>
+    <td></td>
+    <td>Barney</td>		
+    <td>Patrick</td>
+  </tr>
+  <tr>
+    <td>Experimental Probability</td>
+    <td id = "eb"></td>		
+    <td id = "ep"></td>
+  </tr>
+  <tr>
+    <td>Theoretical Probability</td>
+    <td id = "tb"></td>		
+    <td id = "tp"></td>
+  </tr>
+  <tr>
+	<td>Mean Highest Dice Roll</td>
+	<td id = "mb"></td>
+	<td id = "mp"></td>
+</table>
 <script>
 function prob()
 {
 	var start = new Date().getTime();
 	var trials = document.getElementById('t').value;
-	var p, b, sumPatrick=0, sumBarney=0;
+	var p, b, sumPatrick=0, sumBarney=0, sumP=0, sumB=0
 	var barneyDie = document.getElementById('d1').value;
 	var patrickDie = document.getElementById('d2').value;
+	var sides = 6;
 	for(var i = 0; i < trials; ++i)
 	{
 		b = 0;
 		p = 0;
 		for(var x = 0; x < barneyDie; ++x)
 		{		
-			var newB = Math.floor(Math.random()*7);
+			var newB = Math.floor(Math.random()*sides) + 1;
 			if(newB > b)
 			{
 				b = newB;
@@ -29,12 +56,15 @@ function prob()
 		}
 		for(var y = 0; y < patrickDie; ++y)
 		{		
-			var newP = Math.floor(Math.random()*7);
+			var newP = Math.floor(Math.random()*sides) + 1;
 			if(newP > p)
 			{
 				p = newP;
 			}
 		}
+		
+			sumP += p;
+			sumB += b;
 		if(p > b)
 		{
 			++sumPatrick;
@@ -47,12 +77,15 @@ function prob()
 	
 		var barneyProb = sumBarney/trials;
 		var patrickProb = sumPatrick/trials;
-		document.getElementById("eb").innerHTML = "Experimental Probability (Barney): " + barneyProb;
-		document.getElementById("ep").innerHTML = "Experimental Probability (Patrick): " + patrickProb;
+		
+		document.getElementById("mb").innerHTML = "<impNum>" + (sumB/trials) +"</impNum>";
+		document.getElementById("mp").innerHTML = "<impNum>" + (sumP/trials) +"</impNum>";
+		document.getElementById("eb").innerHTML = sumBarney + "/" + trials + " = " + "<impNum>" + barneyProb + "</impNum>";
+		document.getElementById("ep").innerHTML = sumPatrick + "/" + trials + " = " + "<impNum>" + patrickProb + "</impNum>";
 		var end = new Date().getTime();
 		var totalElapsed = end - start;
 		var trialsPerMilli = trials/totalElapsed;
-		document.getElementById("ts").innerHTML = "Trials/Second: " + trialsPerMilli*1000;
+		document.getElementById("ts").innerHTML = "Trials/Second = " + trialsPerMilli*1000;
 }
 </script>
 </html>
